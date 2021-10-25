@@ -1,50 +1,78 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.company.controller;
 
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
+import ConnectivityAPI.Connectivity;
+import Models.Sale;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-/**
- * FXML Controller class
- *
- * @author e-emgarza
- */
+
 public class AdministradorController implements Initializable {
 
-    @FXML private TableView<?> tbSalesAdmin;
+    @FXML private TableView<Sale> tbSalesAdmin;
     @FXML private Button btnFilterUsers;
     @FXML private ComboBox<String> cBoxUsers;
     @FXML private Button btnSignOutAdmin;
+    @FXML private Button btnLoadJson;
     @FXML private TextField txtSales;
     @FXML private Button btnAddModUser;
     @FXML private Label lblTitle1;
     @FXML private Label lblDescription1;
     @FXML private TextField txtDate;
     @FXML private ImageView imageMain;
-
-
+    @FXML private TableColumn<Sale, Long> colIdSale;
+    @FXML private TableColumn<Sale, Integer> colIdEmployee;
+    @FXML private TableColumn<Sale, Integer> colIdBranchOffice;
+    @FXML private TableColumn<Sale, Double> colIdTotalSale;
+    @FXML private TableColumn<Sale, String> coldescription;
+    @FXML private TableColumn<Sale, String> colDate;
+    
+    private ObservableList<Sale> listSales;
+    private BufferedReader bufferedReader;
+    private StringBuilder stringBuilder;
+    private String line;        	
+    private URL url;
+    
+    
+ 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         DataAndHour.dateAndHour(this.txtDate);
-        
         LoadImage.loadImageMain(this.imageMain);
+        
+        this.colIdSale.setCellValueFactory(new PropertyValueFactory<>("id_sale"));
+        this.colIdEmployee.setCellValueFactory(new PropertyValueFactory<>("id_employee"));
+        this.colIdBranchOffice.setCellValueFactory(new PropertyValueFactory<>("id_branch_office"));
+        this.colIdTotalSale.setCellValueFactory(new PropertyValueFactory<>("total_sale"));
+        this.coldescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        this.colDate.setCellValueFactory(new PropertyValueFactory<>("date_sale"));
+        
+        listSales = tbSalesAdmin.getItems();
+   
         
     }    
 
@@ -54,13 +82,19 @@ public class AdministradorController implements Initializable {
     @FXML
     private void signOutAdmin(ActionEvent event) {
         
-        try {
+        Object ev = event.getSource();
+        
+        if(ev.equals(this.btnSignOutAdmin)){
             
+            try {
+
             App.setRoot("VistaPrincipal");
-            
-        } catch (IOException e) {
-            
-            System.out.println("Error: " + e.getMessage());
+
+            } catch (IOException e) {
+
+                System.out.println("Error: " + e.getMessage());
+
+            }
             
         }
         
@@ -75,6 +109,58 @@ public class AdministradorController implements Initializable {
         } catch (IOException e) {
             
             System.out.println("Error: " + e.getMessage());
+            
+        }
+        
+    }
+
+
+    @FXML
+    private void loadDataApi(ActionEvent event) throws IOException {
+        
+        Object ev = event.getSource();
+        
+        if(ev.equals(this.btnLoadJson)){
+            
+            try {
+            
+            url = new URL("http://localhost:9001/listar");
+            
+            //realiza la conexion
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");            
+            connection.connect();
+            
+            if(connection.getResponseCode() == 200){  
+                
+                System.out.println("Response: OK");
+                //obtiene respuesta
+                bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                stringBuilder = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+
+                    stringBuilder.append(line);
+
+                }
+
+                JSONArray dataArray  = new JSONArray(stringBuilder.toString());
+                tbSalesAdmin.getItems().removeAll(listSales);
+
+                for(int i = 0 ; i < dataArray.length(); i++){
+                    
+                    JSONObject row = dataArray.getJSONObject(i); 
+                    listSales.add(new Sale(row.getLong("id_sale"), row.getInt("id_employee"), row.getInt("id_branch_office"), row.getDouble("total_sale"), row.getString("description"), row.getString("date_sale")));
+
+                }
+
+            }
+
+            } catch (MalformedURLException e) {
+
+                    e.printStackTrace();
+
+            }
             
         }
         

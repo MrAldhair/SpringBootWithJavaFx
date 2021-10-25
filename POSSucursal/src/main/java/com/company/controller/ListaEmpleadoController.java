@@ -6,7 +6,6 @@
 package com.company.controller;
 
 import Configurations.Alerts;
-import Configurations.CleanTextfield;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
 import ConnectionDB.ConnDBH2;
@@ -16,10 +15,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -97,13 +93,19 @@ public final class ListaEmpleadoController implements Initializable {
     @FXML
     private void generateNewEmployee(ActionEvent event) {
         
-        try {
+        Object ev = event.getSource();
+        
+        if(ev.equals(this.btnGenerateEmployee)){
+        
+            try {
             
             App.setRoot("VistaAgregarEmpleado");
             
-        } catch (IOException e) {
-            
-            System.out.println("Error: " + e.getMessage());
+            } catch (IOException e) {
+
+                System.out.println("Error: " + e.getMessage());
+
+            }
             
         }
         
@@ -111,75 +113,87 @@ public final class ListaEmpleadoController implements Initializable {
 
     @FXML
     private void deleteEmployee(ActionEvent event) {
-    
-        // Fila seleccionada
-        Employee em = this.tableEmployees.getSelectionModel().getSelectedItem();
         
+        Object ev = event.getSource();
         
-            
-        if(em != null ) {
-            
-            conn = SQL.connectionDbH2();
-            querySql = "DELETE FROM useremployee WHERE idEmployee = ?";
-            
-            try {
-                
-                this.alert = new Alert(Alert.AlertType.CONFIRMATION);
-                this.alert.setTitle("Nuevo empleado");
-                this.alert.setContentText("¿Desea eliminar este usuario del sistema?");
-                this.alert.setHeaderText(null);
+        if(ev.equals(this.btnDelEmployee)){
+        
+            // Fila seleccionada
+            Employee em = this.tableEmployees.getSelectionModel().getSelectedItem();
 
-                PreparedStatement preparedStatement = conn.prepareStatement(querySql);
-                preparedStatement.setString(1, em.getId().toString());
-                
-                // Se agrega esto para obtener el resultado de la alerta de la confirmación
-                Optional<ButtonType> action = this.alert.showAndWait();
 
-                // confirmacion de la alerta
-                if (action.get() == ButtonType.OK) {
 
-                    preparedStatement.execute();
+            if(em != null ) {
 
-                    this.empleyees.remove(em);
+                conn = SQL.connectionDbH2();
+                querySql = "DELETE FROM useremployee WHERE idEmployee = ?";
 
-                    this.tableEmployees.refresh();
+                try {
 
-                    Alerts.alertInformation("Eliminar empleado", "Elemento eliminado con exito");
+                    this.alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    this.alert.setTitle("Nuevo empleado");
+                    this.alert.setContentText("¿Desea eliminar este usuario del sistema?");
+                    this.alert.setHeaderText(null);
 
-                } else {
+                    PreparedStatement preparedStatement = conn.prepareStatement(querySql);
+                    preparedStatement.setString(1, em.getId().toString());
 
-                    preparedStatement.cancel();
-                    System.out.println("no execute");
+                    // Se agrega esto para obtener el resultado de la alerta de la confirmación
+                    Optional<ButtonType> action = this.alert.showAndWait();
+
+                    // confirmacion de la alerta
+                    if (action.get() == ButtonType.OK) {
+
+                        preparedStatement.execute();
+
+                        this.empleyees.remove(em);
+
+                        this.tableEmployees.refresh();
+
+                        Alerts.alertInformation("Eliminar empleado", "Elemento eliminado con exito");
+
+                    } else {
+
+                        preparedStatement.cancel();
+                        System.out.println("no execute");
+
+                    }
+
+                } catch (SQLException e) {
+
+                    System.out.println(e.getMessage());
 
                 }
-                    
-            } catch (SQLException e) {
-                
-                System.out.println(e.getMessage());
-                
+
+            } else {
+
+                Alerts.alertWarning("Eliminar empleado", "Debes seleccionar un elemento de la tabla apara poder eliminarlo");
+
             }
-            
-        } else {
-
-            Alerts.alertWarning("Eliminar empleado", "Debes seleccionar un elemento de la tabla apara poder eliminarlo");
-
-        }
+        
+        } 
 
     }
 
     @FXML
     private void swichToAdministrador(ActionEvent event) {
         
-        try {
+        Object ev = event.getSource();
+        
+        if(ev.equals(this.btnReturn)){
+        
+            try {
             
             App.setRoot("VistaAdministrador");
             
-        } catch (IOException e) {
-            
-            System.out.println("Error: " + e.getMessage());
+            } catch (IOException e) {
+
+                System.out.println("Error: " + e.getMessage());
+
+            }
             
         }
-        
+    
     }
     
     public void fillTable(){
@@ -212,6 +226,5 @@ public final class ListaEmpleadoController implements Initializable {
         }
     
     }
-
 
 }

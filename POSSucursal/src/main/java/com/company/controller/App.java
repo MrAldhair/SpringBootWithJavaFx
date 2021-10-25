@@ -18,7 +18,6 @@ public class App extends Application {
         scene = new Scene(loadFXML("VistaPrincipal"));
         stage.setScene(scene);
         stage.setTitle("Sistema de registro y administración");
-        //stage.setResizable(false);
         stage.show();
         
     }
@@ -29,7 +28,7 @@ public class App extends Application {
         
     }
 
-     static Parent loadFXML(String fxml) throws IOException {
+    static Parent loadFXML(String fxml) throws IOException {
          
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();

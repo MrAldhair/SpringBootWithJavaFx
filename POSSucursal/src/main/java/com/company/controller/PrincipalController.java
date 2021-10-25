@@ -108,7 +108,9 @@ public class PrincipalController implements Initializable {
                 if (rs.next()) {
 
                     if (rbSelectOptionMain.getSelectionModel().getSelectedItem() == "Administrador") {
+                        
                         administrador = true;
+                        
                         try {
                             
                             App.setRoot("VistaAdministrador");
@@ -120,6 +122,7 @@ public class PrincipalController implements Initializable {
                             System.out.println("Error: " + e.getMessage());
                             
                         }
+                        
                     } else if (rbSelectOptionMain.getSelectionModel().getSelectedItem() == "Empleado") {
                         
                         administrador = false;

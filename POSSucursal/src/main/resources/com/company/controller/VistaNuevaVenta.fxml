@@ -100,22 +100,6 @@
             </Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label text="Folio">
-                     <font>
-                        <Font name="Calibri Light" size="24.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="txtFolio" prefHeight="50.0" prefWidth="300.0" promptText="Ingresa el nobre de usuario">
-                     <font>
-                        <Font name="Calibri Light" size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </TextField>
                   <Label text="Total">
                      <font>
                         <Font name="Calibri Light" size="24.0" />
@@ -124,18 +108,14 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtTotal" prefHeight="50.0" prefWidth="300.0" promptText="Ingresa el nobre de usuario">
+                  <TextField fx:id="txtTotal" prefHeight="50.0" prefWidth="300.0" promptText="Ingresa el total de la venta">
                      <font>
                         <Font name="Calibri Light" size="18.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
                   </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-               <children>
                   <Label text="Fecha">
                      <font>
                         <Font name="Calibri Light" size="24.0" />
@@ -144,34 +124,21 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtDateSale" prefHeight="50.0" prefWidth="300.0" promptText="Escribe la contraseña">
-                     <font>
-                        <Font name="Calibri Light" size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <Label text="Hora">
-                     <font>
-                        <Font name="Calibri Light" size="24.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="txtHour" prefHeight="50.0" prefWidth="300.0" promptText="Escribe la contraseña">
+                  <TextField fx:id="txtDate" editable="false" prefHeight="50.0" prefWidth="300.0" promptText="Fecha actual">
                      <font>
                         <Font name="Calibri Light" size="18.0" />
                      </font>
                   </TextField>
                </children>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
                   <Button fx:id="btnGenerateSale" mnemonicParsing="false" onAction="#generateSale" prefHeight="50.0" prefWidth="150.0" text="Generar venta">
                      <HBox.margin>
-                        <Insets right="20.0" />
+                        <Insets right="100.0" />
                      </HBox.margin>
                      <font>
                         <Font name="Calibri Light" size="18.0" />

@@ -37,11 +37,12 @@
             </Label>
             <TableView fx:id="tbSalesAdmin" prefHeight="229.0" prefWidth="960.0">
                <columns>
-                  <TableColumn prefWidth="109.0" text="ID Venta" />
-                  <TableColumn prefWidth="128.0" text="Fecha" />
-                  <TableColumn prefWidth="134.0" text="Usuario" />
-                  <TableColumn prefWidth="201.0" text="Descrpición" />
-                  <TableColumn prefWidth="222.0" text="Monto Venta" />
+                  <TableColumn fx:id="colIdSale" text="ID Venta" />
+                  <TableColumn fx:id="colIdEmployee" prefWidth="94.0" text="ID Empleado" />
+                  <TableColumn fx:id="colIdBranchOffice" prefWidth="101.0" text="ID sucursal" />
+                  <TableColumn fx:id="colIdTotalSale" prefWidth="135.0" text="Total de la  venta" />
+                  <TableColumn fx:id="coldescription" prefWidth="434.0" text="Descripción" />
+                  <TableColumn fx:id="colDate" prefWidth="115.0" text="Fecha de la venta" />
                </columns>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
@@ -65,6 +66,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
+                  <Button fx:id="btnLoadJson" mnemonicParsing="false" onAction="#loadDataApi" prefHeight="38.0" prefWidth="66.0" text="LoadJson" />
                </children>
                <VBox.margin>
                   <Insets bottom="20.0" top="20.0" />

@@ -40,27 +40,39 @@ public class EmpleadoController implements Initializable{
 
     @FXML private void newSale(ActionEvent event) {
         
-        try {
+        Object ev = event.getSource();
+        
+        if(ev.equals(this.btnNewSale)){ 
+        
+            try {
             
             App.setRoot("VistaNuevaVenta");
             
-        } catch (IOException e) {
-            
-            System.out.println("Error: " + e.getMessage());
-            
-        }
+            } catch (IOException e) {
+
+                System.out.println("Error: " + e.getMessage());
+
+            }
         
+        }
+ 
     }
 
     @FXML private void signOutEmployee(ActionEvent event) {
         
-        try {
+        Object ev = event.getSource();
+        
+        if(ev.equals(this.btnSignOutEmployee)){
+        
+            try {
             
             App.setRoot("VistaPrincipal");
-            
-        } catch (IOException e) {
-            
-            System.out.println("Error: " + e.getMessage());
+
+            } catch (IOException e) {
+
+                System.out.println("Error: " + e.getMessage());
+
+            }
             
         }
         
