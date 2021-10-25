@@ -122,7 +122,7 @@ public class AdministradorController implements Initializable {
         
         if(ev.equals(this.btnLoadJson)){
             
-            try {
+            try { 
             
             url = new URL("http://localhost:9001/listar");
             
